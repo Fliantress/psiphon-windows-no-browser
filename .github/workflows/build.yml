@@ -19,7 +19,8 @@ jobs:
           $sln = Get-ChildItem -Recurse -Filter *.sln | Select-Object -First 1
           if ($sln) {
             Write-Output "Found solution: $($sln.FullName)"
-            msbuild $sln.FullName /p:Configuration=Release /p:Platform=Win32
+            # Флаг WindowsTargetPlatformVersion принудительно заменяет старый SDK на актуальный
+            msbuild $sln.FullName /p:Configuration=Release /p:Platform=Win32 /p:WindowsTargetPlatformVersion=10.0
           } else {
             Write-Error "No .sln file found in repository!"
             exit 1
