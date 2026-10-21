@@ -15,4 +15,12 @@ jobs:
         uses: microsoft/setup-msbuild@v2
 
       - name: Build Solution
-        run: msbuild psi-client-windows.sln /p:Configuration=Release /p:Platform=Win32
+        run: |
+          $sln = Get-ChildItem -Recurse -Filter *.sln | Select-Object -First 1
+          if ($sln) {
+            Write-Output "Found solution: $($sln.FullName)"
+            msbuild $sln.FullName /p:Configuration=Release /p:Platform=Win32
+          } else {
+            Write-Error "No .sln file found in repository!"
+            exit 1
+          }
