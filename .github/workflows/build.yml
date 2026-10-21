@@ -1,0 +1,16 @@
+name: Build Psiphon
+on:
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: windows-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup MSBuild
+        uses: microsoft/setup-msbuild@v2
+
+      - name: Build Solution
+        run: msbuild psiphon.sln /p:Configuration=Release /p:Platform=Win32
